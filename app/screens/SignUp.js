@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { View, StyleSheet, Button, Text } from 'react-native';
+import { View, StyleSheet, Button, Text, KeyboardAvoidingView } from 'react-native';
+import { Header } from 'react-navigation-stack';
 
 import t from 'tcomb-form-native';
 
@@ -28,45 +29,32 @@ export default class SignUp extends Component {
 
     render() {
         return(
-            <View style={styles.container}>
-                <Form
-                    ref={c => (this._form = c)}
-                    type={User}
-                />
-                <Text style={styles.loginLink} onPress={() => this.props.navigation.navigate('Login')}
-                > Already have an account?
-                </Text>
-                <Button title={"Sign Up"} onPress={this.handleSubmit}/>
-            </View>
+            <KeyboardAvoidingView
+                keyboardVerticalOffset = {Header.HEIGHT + 20}
+                style = {styles.container}
+                behavior = "padding"
+            >
+                <View>
+                    <Form
+                        ref={c => (this._form = c)}
+                        type={User}
+                    />
+                    <Text style={styles.loginLink} onPress={() => this.props.navigation.navigate('Login')}
+                    > Already have an account?
+                    </Text>
+                    <Button title={"Sign Up"} onPress={this.handleSubmit}/>
+                </View>
+            </KeyboardAvoidingView>
         )};
 }
 
 const styles = StyleSheet.create({
     container: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    inputBox: {
-        width: 300,
-        backgroundColor: '#eeeeee',
-        borderRadius: 25,
-        paddingHorizontal: 16,
-        fontSize: 16,
-        color: '#002f6c',
-        marginVertical: 10
-    },
-    button: {
-        width: 300,
-        backgroundColor: '#4f83cc',
-        borderRadius: 25,
-        marginVertical: 10,
-        paddingVertical: 12
-    },
-    buttonText: {
-        fontSize: 16,
-        fontWeight: '500',
-        color: '#ffffff',
-        textAlign: 'center'
+        width: '100%',
+        bottom: 200,
+        paddingLeft: 30,
+        paddingRight: 30,
+        position: 'absolute'
     },
     loginLink: {
         color: '#fe1ff8'
