@@ -7,21 +7,25 @@ import t from 'tcomb-form-native';
 
 const Form = t.form.Form;
 
-const User = t.struct({
-    name: t.String,
-    phone: t.String,
-    password: t.String,
+const Gender = t.enums.of(['Male', 'Female'], 'Gender');
+const Role = t.enums.of(['Drunk', 'Driver', 'Both'], 'Role');
+
+const Preferences = t.struct({
+    role: Role,
+    age: t.Number,
+    gender: Gender,
 });
 
-export default class SignUp extends Component {
+export default class PreferenceForm extends Component {
 
     handleSubmit = () => {
-        const newUserRequest = this._form.getValue();
+        const { state } = this.props.navigation;
+        const newPreferenceRequest = this._form.getValue();
 
-        axios.post('http://127.0.0.1:3000/api/v1/users', newUserRequest)
+        axios.post('http://127.0.0.1:3000/api/v1/users/' + state.params.user.id + '/preferences', newPreferenceRequest)
             .then(res => {
-                const currUser = res.data;
-                this.props.navigation.navigate('ProfileForm', { user: currUser })
+                const currPreferences = res.data;
+                this.props.navigation.navigate('Profile', { user: state.params.user, profile: state.params.profile, preferences: currPreferences})
             })
             .catch(function(error) {
                 console.log(JSON.stringify(error))
@@ -38,12 +42,9 @@ export default class SignUp extends Component {
                 <View>
                     <Form
                         ref={c => (this._form = c)}
-                        type={User}
+                        type={Preferences}
                     />
-                    <Text style={styles.loginLink} onPress={() => this.props.navigation.navigate('Login')}
-                    > Already have an account?
-                    </Text>
-                    <Button title={"Sign Up"} onPress={this.handleSubmit}/>
+                    <Button title={"Start Search"} onPress={this.handleSubmit}/>
                 </View>
             </KeyboardAvoidingView>
         )};
@@ -56,8 +57,5 @@ const styles = StyleSheet.create({
         paddingLeft: 30,
         paddingRight: 30,
         position: 'absolute'
-    },
-    loginLink: {
-        color: '#fe1ff8'
     }
 });

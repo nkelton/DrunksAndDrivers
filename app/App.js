@@ -5,6 +5,8 @@ import { createStackNavigator } from "react-navigation-stack"
 import SignUp from './screens/SignUp';
 import Login from './screens/Login';
 import Profile from './screens/Profile';
+import ProfileForm from './screens/ProfileForm';
+import PreferenceForm from './screens/PreferenceForm';
 
 
 export default class App extends React.Component {
@@ -23,6 +25,12 @@ const AppNavigator = createStackNavigator({
     },
     Profile: {
         screen: Profile
+    },
+    ProfileForm: {
+        screen: ProfileForm
+    },
+    PreferenceForm: {
+        screen: PreferenceForm
     }
 },{
     initialRouteName: "SignUp"
